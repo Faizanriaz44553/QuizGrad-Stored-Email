@@ -1,6 +1,7 @@
 let usera = document.querySelector('#user1') 
 let userb = document.querySelector('#user2')
 let userc =document.querySelector("#user3")
+let profile =document.querySelector("#pic")
 
 
 
@@ -10,8 +11,10 @@ function validationForm() {
     user1: usera.value,
     user2: userb.value,
     user3: userc.value,
+    user4: profile.value,
   }
-  const {user1 , user2 , user3} = obj;
+  const {user1 , user2 , user3 ,} = obj;
+  console.log(profile);
   let error = document.querySelector('#validation-2') 
   let CapitalLetter = false 
   let SmallLetter = false 
@@ -32,9 +35,16 @@ function validationForm() {
         for (let i = 0; i < user2.length; i++) {
           if (user2[i] >= "A" && user2[i] <= "Z") { 
             CapitalLetter = true }; 
-            if (user2[i] >= "a" && user2[i] <= "z") { SmallLetter = true }; 
-            if (user2[i] >= "0" && user2[i] <= "9") { hasNumber = true; } 
-            if (specialChars.includes(user2[i])) { hasSpecialChar = true; } }
+            if (user2[i] >= "a" && user2[i] <= "z") { 
+            SmallLetter = true 
+            }; 
+            if (user2[i] >= "0" && user2[i] <= "9") {
+            hasNumber = true; 
+            } 
+            if (specialChars.includes(user2[i])) {
+            hasSpecialChar = true; 
+            } 
+        }
             if (CapitalLetter !== true) {
             console.log("Enter a password with at least one capital letter");
             error.innerHTML =("Enter a password with at least one capital letter");
@@ -56,18 +66,37 @@ function validationForm() {
             error.className = "error";
         }
         if (CapitalLetter && SmallLetter && hasNumber && hasSpecialChar) {
-          localStorage.setItem('data', JSON.stringify(obj));
-            console.log("Correct Password");
-            Swal.fire({
-            position: "top-center",
-            icon: "success",
-            title: "Login",
-            showConfirmButton: false,
-            timer: 1500
-            });
-           setTimeout(function() {
-                window.location.href = "./login.html";
-            } , 1000);
+          // localStorage.setItem('data', JSON.stringify(obj));
+          //   console.log("Correct Password");
+          //   Swal.fire({
+          //   position: "top-center",
+          //   icon: "success",
+          //   title: "Login",
+          //   showConfirmButton: false,
+          //   timer: 1500
+          //   });
+          //  setTimeout(function() {
+          //       window.location.href = "./login.html";
+          //   } , 1000);
+           if (profile.files.length > 0) {
+                    let image = profile.files[0];
+                    let fileread = new FileReader();
+                    fileread.onload = () => {
+                        obj.profile = fileread.result;
+                        localStorage.setItem('data', JSON.stringify(obj));
+                        console.log("Correct Password");
+                        Swal.fire({
+                            position: "top-center",
+                            icon: "success",
+                            title: "Signup Successful",
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                        setTimeout(function() {
+                            window.location.href = "./login.html";
+                        }, 1000);
+                    }
+                    fileread.readAsDataURL(image);
         }
     }
     else {
@@ -77,21 +106,15 @@ function validationForm() {
     }
 }
 }
-
-function secondLogin() { 
-  let data = JSON.parse(localStorage.getItem('data'))
-  if (data.user1 === usermail.value && data.user2 === userpass.value) {
-    Swal.fire({ 
-      position: "top-center", 
-      icon: "success", 
-      title: "Succesfully Signup", 
-      showConfirmButton: false, 
-      timer: 1500 }); 
-      setTimeout(function() { 
-        window.location.href = "./last.html"; } , 1000);
-  } 
-  else {
-    alert('please enter correct email and password')
-  }
-  
 }
+// const uploadimg = ()=>{
+//   let img = profile.files[0];
+//   let fileread = new FileReader();
+//   fileread.onload = ()=>{
+//     let imageobj = {
+//       profile : fileread.result
+//     }
+//     localStorage.set("imgData" , JSON.stringify(imageobj))
+//   }
+//   fileread.readAsDataURL(img)
+// }
