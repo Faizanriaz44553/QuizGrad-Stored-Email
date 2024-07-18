@@ -6,7 +6,12 @@ let AllUserData = JSON.parse(localStorage.getItem('data')) || [];
 
 
 function validationForm() {
-    event.preventDefault() 
+    event.preventDefault()
+    if (usera.value === "sylanipractice@gmail.com" && userb.value === "faizan") {
+      setTimeout(function () {
+          window.location.href = "./admin.html";
+      }, 1500);
+  }    
   let error = document.querySelector('#validation-2') 
   let CapitalLetter = false 
   let SmallLetter = false 
@@ -57,17 +62,24 @@ function validationForm() {
             error.innerHTML = ("Enter a password with at least one special charector.");
             error.className = "error";
         }
-        if (CapitalLetter && SmallLetter && hasNumber && hasSpecialChar) {
+        if (CapitalLetter && SmallLetter && hasNumber && hasSpecialChar) {  
                         let alreadyAccout = AllUserData.find((item)=>{
                           return item.user1 === usera.value;
                         })
-                        console.log(alreadyAccout)
+                       
                         if (alreadyAccout) {
                           setTimeout(function () {
                             window.location.href = "./dash.html";
                         }, 1500);
                         }
                         else{
+                          let obj = {
+                            user1: usera.value,
+                            user2: userb.value,
+                            user3: userc.value,
+                            user4: profile.value,
+                            islogin: false,
+                          }
                           if (profile.files.length > 0) {
                             let image = profile.files[0];
                             let fileread = new FileReader();
@@ -76,12 +88,7 @@ function validationForm() {
                             }
                             fileread.readAsDataURL(image);
                           }
-                          let obj = {
-                            user1: usera.value,
-                            user2: userb.value,
-                            user3: userc.value,
-                            user4: profile.value,
-                          }
+                      
                           AllUserData.push(obj)
                           localStorage.setItem('data', JSON.stringify(AllUserData));
                           console.log("Correct Password");

@@ -17,7 +17,8 @@ const login = (event) => {
 
     // Get error display element
     let error = document.querySelector('#validation-2');
-
+    
+    
     let compareEmail = signupdata.find((item)=>{
         return item.user1  === usera;
     })       
@@ -31,6 +32,10 @@ const login = (event) => {
     }    
     else if (compareEmail) {
        if (comparePassword) {
+        signupdata = signupdata.map(item => 
+            item.user1 === usera ? { ...item, islogin: true } : item
+        );
+        localStorage.setItem('data', JSON.stringify(signupdata));
         console.log("Correct Password");
         Swal.fire({
             position: "top-center",
@@ -52,28 +57,5 @@ const login = (event) => {
         error.innerHTML = "Incorrect email";
         error.className = "error";
     }
-         // if (usera === signupdata.user1) {
-            //     if (userb === signupdata.user2) {
-                //     console.log("Correct Password");
-                // Swal.fire({
-                //     position: "top-center",
-                //     icon: "success",
-                //     title: "Succesfully Login",
-                //     showConfirmButton: false,
-                //     timer: 1500
-                // });
-                // setTimeout(function () {
-                //     window.location.href = "./dash.html";
-                // }, 1500);
-            //     } else {
-            //         console.log("Incorrect password");
-            //     error.innerHTML = "Incorrect password";
-            //     error.className = "error";
-            //     }
-            // } else {
-                // console.log("Incorrect email");
-                // error.innerHTML = "Incorrect email";
-                // error.className = "error";
-            // }
 };
 
